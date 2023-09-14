@@ -39,8 +39,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 material-ui install
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
 
 https://mui.com/material-ui/getting-started/installation/
 
 
 npm install swr axios
+
+
+

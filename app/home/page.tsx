@@ -1,21 +1,14 @@
 "use client";
 
 import {
-  Box,
-  Button,
-  ButtonGroup,
-  Drawer,
+  Backdrop,
+  CircularProgress,
   Fab,
   Grid,
   TextField,
 } from "@mui/material";
-import { createRef, useCallback } from "react";
-import CoursePanel from "../components/course";
 import { useRouter } from "next/navigation";
-import NavBar from "../components/navbar";
-import HistoryLayout from "./layout";
-import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Home() {
   const styles = {
@@ -27,44 +20,36 @@ export default function Home() {
       width: "100%",
       marginTop: "5rem",
     },
-
-    panel: {
-      width: "75%",
-    },
   };
 
   const router = useRouter();
 
-  const [isOpen, setOpen] = React.useState(false);
-  const handler = () => {
-    setOpen((prevState) => !prevState);
+  const [wait, setWait] = React.useState(false);
+
+  const handleOpen = () => {
+    setWait(true);
   };
+
+  useEffect(() => {
+    if (!wait) {
+      return;
+    }
+
+    const timer = setInterval(async () => {
+      setWait(false);
+
+      router.push("/home/result");
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [wait]);
 
   return (
     <>
-      <Drawer
-        anchor={"right"}
-        open={isOpen}
-        onClose={handler}
-        PaperProps={{ sx: { width: styles.panel.width } }}
-      >
-        <CoursePanel />
-        {/* {isOpen ? <CoursePanel /> : <></>} */}
-      </Drawer>
-
       <Grid justifyContent="center" container>
-        <Grid xs={9}>
-          <Box display="flex" justifyContent="flex-end">
-            <ButtonGroup variant="text" aria-label="text button group">
-              <Button onClick={() => router.push("/home/team")}>history</Button>
-              <Button onClick={handler}>Course</Button>
-            </ButtonGroup>
-          </Box>
-        </Grid>
-      </Grid>
-
-      <Grid justifyContent="center" container>
-        <Grid xs={8} sx={{ textAlign: "center" }}>
+        <Grid item xs={8} sx={{ textAlign: "center" }}>
           <TextField
             id="standard-basic"
             label="Prompt"
@@ -83,9 +68,17 @@ export default function Home() {
             color="primary"
             aria-label="add"
             sx={{ marginTop: styles.generateBtn.marginTop }}
+            onClick={handleOpen}
           >
             generate
           </Fab>
+
+          <Backdrop
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={wait}
+          >
+            <CircularProgress />
+          </Backdrop>
         </Grid>
       </Grid>
     </>

@@ -30,7 +30,7 @@ export default function NavBar() {
       height: 20,
       width: 100,
       mr: 4,
-      mt: "-4px",
+      mt: "-0.2rem",
     },
     menuItem: {
       fontSize: 18,
