@@ -49,6 +49,7 @@ export default function HomeLayout(props: { children: React.ReactNode }) {
         <Grid item xs={9}>
           <Box display="flex" justifyContent="flex-end">
             <ButtonGroup variant="text" aria-label="text button group">
+              <Button>recommend</Button>
               <Button onClick={historyHandler}>history</Button>
               <Button onClick={courseHandler}>course</Button>
             </ButtonGroup>

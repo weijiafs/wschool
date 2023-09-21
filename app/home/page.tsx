@@ -24,10 +24,28 @@ export default function Home() {
 
   const router = useRouter();
 
+  const [submitState, setSubmitState] = React.useState(true);
+
   const [wait, setWait] = React.useState(false);
 
   const handleOpen = () => {
     setWait(true);
+  };
+
+  const promptOnChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log(event.target.value.length);
+
+    if (event.target.value.length > 0) {
+      if (submitState) {
+        setSubmitState(false);
+      }
+    } else {
+      if (!submitState) {
+        setSubmitState(true);
+      }
+    }
   };
 
   useEffect(() => {
@@ -51,7 +69,7 @@ export default function Home() {
       <Grid justifyContent="center" container>
         <Grid item xs={8} sx={{ textAlign: "center" }}>
           <TextField
-            id="standard-basic"
+            id="prompt"
             label="Prompt"
             variant="standard"
             multiline
@@ -60,6 +78,7 @@ export default function Home() {
               width: styles.promptText.width,
               marginTop: styles.promptText.marginTop,
             }}
+            onChange={promptOnChange}
           />
 
           <Fab
@@ -69,6 +88,7 @@ export default function Home() {
             aria-label="add"
             sx={{ marginTop: styles.generateBtn.marginTop }}
             onClick={handleOpen}
+            disabled={submitState}
           >
             generate
           </Fab>

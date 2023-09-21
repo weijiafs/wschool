@@ -70,7 +70,7 @@ export default function HistoryPanel() {
       </ImageList>
 
       <Box justifyContent="center">
-        <Pagination count={10} showFirstButton showLastButton/>
+        <Pagination count={10} showFirstButton showLastButton />
       </Box>
     </>
   );
